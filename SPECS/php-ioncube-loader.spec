@@ -1,22 +1,21 @@
+%if 0%{?scl:1}
+%scl_package php-ioncube-loader
+%endif
 
-%global php php54
 %global php_basever 5.4
 %global _php5_mod_dir %{_libdir}/php/modules
-%global basever 4.2
 
-Name:       %{php}-ioncube-loader
+Name:       %{?scl_prefix}php-ioncube-loader
 Summary:    IonCube Loader provides PHP Modules to read IonCube Encoded Files
-Version:    4.5.2
-Release:    1.ius%{?dist}
+Version:    4.5.1
+Release:    2.ius%{?dist}
 License:    Free Software
 URL:        http://www.ioncube.com
 Group:      Development/Languages
 Source0:    http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz
 Source1:    http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz 
 BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX) 
-Requires:   %{php} >= %{php_basever}
-Conflicts:  php-ioncube-loader < %{basever}
-Provides:   php-ioncube-loader = %{version}-%{release}
+Requires:   %{?scl_prefix}php >= %{php_basever}
 
 %description
 IonCube Loader provides PHP Modules to read IonCube Encoded Files
@@ -41,13 +40,13 @@ fi
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
 %{__mkdir_p} %{buildroot}%{_php5_mod_dir} \
-             %{buildroot}/etc/php.d
+             %{buildroot}/%{_sysconfdir}/php.d
 
 # Install the shared objects
 install -m 755 ioncube_loader_lin_%{php_basever}.so %{buildroot}%{_php5_mod_dir}
 install -m 755 ioncube_loader_lin_%{php_basever}_ts.so %{buildroot}%{_php5_mod_dir}
 
-%{__cat} >> %{buildroot}/etc/php.d/ioncube-loader.ini <<EOF
+%{__cat} >> %{buildroot}/%{_sysconfdir}/php.d/ioncube-loader.ini <<EOF
 
 ; Configured for PHP ${php_basever}
 zend_extension=%{_php5_mod_dir}/ioncube_loader_lin_%{php_basever}.so
@@ -68,14 +67,14 @@ EOF
 %files
 %defattr(-,root,root)
 #%%doc README.txt LICENSE.txt 
-%config %attr(644,root,root) /etc/php.d/ioncube-loader.ini
+%config %attr(644,root,root) %{_sysconfdir}/php.d/ioncube-loader.ini
 %{_php5_mod_dir}/ioncube_loader_lin_%{php_basever}.so
 %{_php5_mod_dir}/ioncube_loader_lin_%{php_basever}_ts.so
 
 
 %changelog
-* Mon Jan 20 2014 Ben Harper <ben.harper@rackspace.com> - 4.5.2-1.ius
-- Latest sources from upstream
+* Wed Jan 29 2014 Mark McKinstry <mmckinst@nexcess.net> - 4.5.1-2.ius
+- convert to SCL style
 
 * Mon Jan 06 2014 Ben Harper <ben.harper@rackspace.com> - 4.5.1-1.ius
 - Latest sources from upstream
