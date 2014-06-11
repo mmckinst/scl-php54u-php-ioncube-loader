@@ -7,8 +7,8 @@
 
 Name:       %{?scl_prefix}php-ioncube-loader
 Summary:    IonCube Loader provides PHP Modules to read IonCube Encoded Files
-Version:    4.5.1
-Release:    2.ius%{?dist}
+Version:    4.6.1
+Release:    1.ius%{?dist}
 License:    Free Software
 URL:        http://www.ioncube.com
 Group:      Development/Languages
@@ -73,6 +73,9 @@ EOF
 
 
 %changelog
+* Wed Jun 11 2014 Niek Beernink <n.beernink@oxilion.nl> - 4.6.1-1.ius
+- Latest sources from upstream 
+
 * Wed Jan 29 2014 Mark McKinstry <mmckinst@nexcess.net> - 4.5.1-2.ius
 - convert to SCL style
 
